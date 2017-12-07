@@ -3,6 +3,8 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Configuration;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -22,6 +24,7 @@ namespace MonikaBot
 
         public async Task MainAsync()
         {
+            string tokenFile = ConfigurationManager.AppSettings["TokenFile"];
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Info,
@@ -36,8 +39,8 @@ namespace MonikaBot
 
             _client.Log += Logger;
             _commands.Log += Logger;
-            
-            string token = "Mzg4MDIxMDkyMTM4MjIxNTY4.DQq81Q.lIU-V5cFx8T-hseX-nBbu-EFfP0";
+
+            string token = ReadToken(tokenFile);
 
             _services = new ServiceCollection()
                 .AddSingleton(_client)
@@ -49,7 +52,26 @@ namespace MonikaBot
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
+            _client.Ready += () =>
+            {
+                Console.WriteLine($"{DateTime.Now, -19} [Monika] I'm up and running~");
+                return Task.CompletedTask;
+            };
+            
+
             await Task.Delay(-1);
+        }
+
+        private string ReadToken(string tokenFile)
+        {
+            var lines = File.ReadLines(tokenFile);
+            foreach (var line in lines)
+            {
+                return line;
+            }
+
+            return null;
+            
         }
 
         public async Task InstallCommandsAsync()
