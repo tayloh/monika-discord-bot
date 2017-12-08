@@ -24,6 +24,7 @@ namespace MonikaBot
         {
             var message = messageParam as SocketUserMessage;
             if (message == null) return;
+            if (message.Author.Username == _client.CurrentUser.Username) return;
 
             int argPos = 0;
 
