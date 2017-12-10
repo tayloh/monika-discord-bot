@@ -12,6 +12,7 @@ namespace MonikaBot
 
         private DiscordSocketClient _client;
         private CommandService _commands;
+        private GuildUserControl _guildUsers;
 
         static void Main(string[] args)
             => new Program().MainAsync().GetAwaiter().GetResult(); //starta MainAsync (som aldrig blir klar)
@@ -39,7 +40,9 @@ namespace MonikaBot
                 .AddSingleton<LoggingService>()
                 .AddSingleton<CommandHandler>()
                 .AddSingleton<Random>()
-                .AddSingleton<GuildMonitorService>();
+                .AddSingleton<GuildMonitorService>()
+                .AddSingleton<GuildUserControl>()
+                .AddSingleton<TimedMessagingService>();
 
             var provider = services.BuildServiceProvider();
 
@@ -47,6 +50,8 @@ namespace MonikaBot
             await provider.GetRequiredService<StartupService>().StartAsync();
             provider.GetRequiredService<CommandHandler>();
             provider.GetRequiredService<GuildMonitorService>();
+            provider.GetRequiredService<GuildUserControl>();
+            provider.GetRequiredService<TimedMessagingService>();
 
             await Task.Delay(-1);
         }

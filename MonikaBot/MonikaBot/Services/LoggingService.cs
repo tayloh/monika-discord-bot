@@ -16,11 +16,11 @@ namespace MonikaBot
             _client = client;
             _commands = commands;
 
-            _client.Log += OnLogAsync;
-            _commands.Log += OnLogAsync;
+            _client.Log += client_LogAsync;
+            _commands.Log += client_LogAsync;
         }
 
-        private Task OnLogAsync(LogMessage message)
+        private Task client_LogAsync(LogMessage message)
         {
             switch (message.Severity)
             {

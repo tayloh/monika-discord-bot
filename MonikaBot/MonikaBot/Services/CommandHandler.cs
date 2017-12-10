@@ -17,10 +17,10 @@ namespace MonikaBot
             _commands = commands;
             _provider = provider;
 
-            _client.MessageReceived += OnMessageRecievedAsync;
+            _client.MessageReceived += client_MessageRecievedAsync;
         }
 
-        private async Task OnMessageRecievedAsync(SocketMessage messageParam)
+        private async Task client_MessageRecievedAsync(SocketMessage messageParam)
         {
             var message = messageParam as SocketUserMessage;
             if (message == null) return;
