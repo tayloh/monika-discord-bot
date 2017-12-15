@@ -30,13 +30,20 @@ namespace MonikaBot
 
         private Task UpdateGuilds()
         {
+            GuildAndUsersDictionary.Clear();
             _guilds = _client.Guilds;
 
             foreach (var guild in _guilds)
             {
-                Console.WriteLine(guild);
-                GuildAndUsersDictionary.Add(guild, guild.Users);
-                Console.WriteLine(guild + ":" + guild.Users);
+                try
+                {
+                    GuildAndUsersDictionary.Add(guild, guild.Users);
+
+                }
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine("Failed to update GuildAndUsersDictionary");
+                }
             }
             return Task.CompletedTask;
         }

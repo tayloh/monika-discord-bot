@@ -6,6 +6,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Misc\poems.xml" />
+    <None Remove="poems.xml" />
+    <None Remove="quotes.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Misc\poems.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Misc\quotes.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Discord.Net" Version="1.0.2" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
   </ItemGroup>

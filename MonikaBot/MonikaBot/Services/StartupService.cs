@@ -4,6 +4,7 @@ using Discord.WebSocket;
 using System;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -32,10 +33,18 @@ namespace MonikaBot
 
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly()); //?
 
-            _client.Ready += () =>
+            _client.Ready += async () =>
             {
                 Console.WriteLine($"{DateTime.Now,-19} [Monika - pre-alpha v0.0.1] I'm up and running~");
-                return Task.CompletedTask;
+                await _client.SetGameAsync("Doki Doki Litterature Club!");
+                foreach (var guild in _client.Guilds)
+                {
+                    if(guild.TextChannels.FirstOrDefault() != null)
+                    {
+                        await guild.TextChannels.FirstOrDefault().SendMessageAsync("[Monika - pre-alpha v0.0.1] I'm up and running~");
+                        //await guild.DefaultChannel.SendMessageAsync("[Monika - pre-alpha v0.0.1] I'm up and running~"); depricated
+                    }
+                }
             };
         }
 
